@@ -8,7 +8,7 @@ const app = express()
 
 app.use(cors())
 app.use(express.json())
-app.use(express.static(path.join(__dirname, '../public')))
+app.use(express.static(path.join(__dirname, '../build/')))
 
 mongoose.connect(process.env.URI,{useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true}).then(() => console.log('Connection finally estabilished')).catch(err => console.log(err))
 
@@ -21,7 +21,7 @@ entryRoute = require('./route')
 app.use('/entry',entryRoute)
 
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname + '../public/index.html'));
+    res.sendFile(path.join(__dirname + '../build/index.html'));
 });
 
 const port = process.env.PORT || 3000
