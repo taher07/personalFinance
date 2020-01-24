@@ -31,11 +31,11 @@ class App extends React.Component{
     this.setState({narr: e.target.value})
   }
   async componentDidMount() {
-    await axios.get('https://personal-finance-master.herokuapp.com/entry/info').then(data => {
+    await axios.get('http://localhost:3000/entry/info').then(data => {
         this.setState({capAmt: data.data.totalCap})
         this.setState({expAmt: data.data.totalExp})
     }).catch(err => console.log(err))
-    await axios.get('https://personal-finance-master.herokuapp.com/entry').then(data => {
+    await axios.get('http://localhost:3000/entry').then(data => {
       data.data.forEach(item => {
         if(item.nature === 'Capital')
           this.setState(prevState => ({capAmtArray: [...prevState.capAmtArray,item.amount]}))
@@ -43,7 +43,7 @@ class App extends React.Component{
           this.setState(prevState => ({expAmtArray: [...prevState.expAmtArray,item.amount]}))
       });
     }).catch(err => console.log(err))
-    await axios.get('https://personal-finance-master.herokuapp.com/entry/info/month/' + this.state.curMonth).then(data => {
+    await axios.get('http://localhost:3000/entry/info/month/' + this.state.curMonth).then(data => {
        data.data.forEach(item => {
         if(item.nature === 'Capital')
           this.setState(prevState => ({thisMonthCapAmtArray: [...prevState.thisMonthCapAmtArray,item.amount]}))
@@ -78,7 +78,7 @@ class App extends React.Component{
           <button className="btnSubmit" onClick={() => {
             axios({
               method: 'POST',
-              url: 'https://personal-finance-master.herokuapp.com/entry/add',
+              url: 'http://localhost:3000/entry/add',
               data: {
                 nature: this.state.nature,
                 amount: this.state.amt,
