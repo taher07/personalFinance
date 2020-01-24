@@ -10,7 +10,7 @@ export default class Table extends React.Component  {
         }
     }
     async componentDidMount() {
-        await axios.get('http://localhost:3000/entry/').then(data => {
+        await axios.get('https://personal-finance-master.herokuapp.com//entry/').then(data => {
             this.setState({data: data.data})
         }).catch(err => console.log(err))
     }
