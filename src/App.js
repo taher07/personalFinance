@@ -22,9 +22,6 @@ class App extends React.Component{
       thisMonthExpAmtArray: []
     }
   }
-  template = renderEmail(
-    <Stats capData={this.state.capAmtArray} expData={this.state.expAmtArray} currCap={this.state.thisMonthCapAmtArray} currExp={this.state.thisMonthExpAmtArray}/>
-  )
   handleNature = e => {
     this.setState({nature: e.target.value})
   }
