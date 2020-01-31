@@ -65,4 +65,34 @@ router.get('/info/month/:month',(req,res) => {
     }).catch(err => res.status(400).json({message: err}))
 })
 
+router.get('/analyze',(req,res) => {
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+    months.forEach(item => {
+        entry.find({date: {$regex: item + '+'}}).then(data => {
+            res.json({
+                month: item,
+                data: data
+            })
+        }).catch(err => res.status(400).json({message: err}))
+    })
+})
+
+router.post('/send',(req,res) => {
+    const nodeMailer = require('nodemailer')
+    const transporter = nodeMailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.EMAIL,
+            pass: process.env.PASS
+        }
+    })
+    const mailOptions = {
+        from: 'Taher Lunavadi',
+        to: 'taherlunawadi@gmail.com',
+        subject: req.body.subject,
+        html: req.body.template
+    }
+    transporter.sendMail(mailOptions).then(() => console.log('mail sent successfully')).catch(err => console.log(err))
+})
+
 module.exports = router

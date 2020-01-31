@@ -3,6 +3,7 @@ import './App.css';
 import Table from './components/data'
 import axios from 'axios'
 import Stats from './components/statistics';
+import {renderEmail} from 'react-html-email'
 
 const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 class App extends React.Component{
@@ -21,6 +22,9 @@ class App extends React.Component{
       thisMonthExpAmtArray: []
     }
   }
+  template = renderEmail(
+    <Stats capData={this.state.capAmtArray} expData={this.state.expAmtArray} currCap={this.state.thisMonthCapAmtArray} currExp={this.state.thisMonthExpAmtArray}/>
+  )
   handleNature = e => {
     this.setState({nature: e.target.value})
   }
@@ -30,6 +34,7 @@ class App extends React.Component{
   handleNarr = e => {
     this.setState({narr: e.target.value})
   }
+
   async componentDidMount() {
     await axios.get('http://localhost:3000/entry/info').then(data => {
         this.setState({capAmt: data.data.totalCap})
@@ -51,6 +56,12 @@ class App extends React.Component{
           this.setState(prevState => ({thisMonthExpAmtArray: [...prevState.thisMonthExpAmtArray,item.amount]}))
        })
     }).catch(err => console.log(err))
+    if(new Date().getDate() === 31) {
+      axios.post('http://localhost:3000/entry/send',{
+        subject: `Summary for the month of ${this.state.curMonth} ${new Date().getFullYear()}`,
+        template: this.template
+      }).then(() => console.log('mail dispatched')).catch(err => console.log(err))
+    }
 }
   render() {
     return (
