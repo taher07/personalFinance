@@ -56,12 +56,6 @@ class App extends React.Component{
           this.setState(prevState => ({thisMonthExpAmtArray: [...prevState.thisMonthExpAmtArray,item.amount]}))
        })
     }).catch(err => console.log(err))
-    if(new Date().getDate() === 31) {
-      await axios.post('http://localhost:3000/entry/send',{
-        subject: `Summary for the month of ${this.state.curMonth} ${new Date().getFullYear()}`,
-        template: this.template
-      }).then(() => console.log('mail dispatched')).catch(err => console.log(err))
-    }
 }
   render() {
     return (
