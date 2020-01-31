@@ -57,7 +57,7 @@ class App extends React.Component{
        })
     }).catch(err => console.log(err))
     if(new Date().getDate() === 31) {
-      axios.post('http://localhost:3000/entry/send',{
+      await axios.post('http://localhost:3000/entry/send',{
         subject: `Summary for the month of ${this.state.curMonth} ${new Date().getFullYear()}`,
         template: this.template
       }).then(() => console.log('mail dispatched')).catch(err => console.log(err))
