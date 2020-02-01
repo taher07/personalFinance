@@ -57,7 +57,7 @@ class App extends React.Component{
     if(new Date().getDate() === 31) {
       await axios.post('http://localhost:3000/entry/send',{
         subject: `Summary for the month of ${this.state.curMonth} ${new Date().getFullYear()}`,
-        template: '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' + renderToString(
+        template: renderToString(
           <Stats capData={this.state.capAmtArray} expData={this.state.expAmtArray} currCap={this.state.thisMonthCapAmtArray} currExp={this.state.thisMonthExpAmtArray}/>
         )
       }).then(() => console.log('mail dispatched')).catch(err => console.log(err))
