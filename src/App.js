@@ -54,7 +54,7 @@ class App extends React.Component{
           this.setState(prevState => ({thisMonthExpAmtArray: [...prevState.thisMonthExpAmtArray,item.amount]}))
        })
     }).catch(err => console.log(err))
-    if(new Date().getDate() === 31) {
+    if(new Date().getDate() === 1) {
       await axios.post('http://localhost:3000/entry/send',{
         subject: `Summary for the month of ${this.state.curMonth} ${new Date().getFullYear()}`,
         template: renderToString(
